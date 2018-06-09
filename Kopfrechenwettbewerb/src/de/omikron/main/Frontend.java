@@ -8,7 +8,7 @@ public class Frontend {
 	
 	public void init() {
 		InitFrame init = new InitFrame();
-		init.setVisible(true);
+		init.init();
 	}
 
 }
