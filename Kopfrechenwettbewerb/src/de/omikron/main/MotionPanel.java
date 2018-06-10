@@ -8,7 +8,7 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-@SuppressWarnings({ "synthetic-access", "serial" })
+@SuppressWarnings({ "serial" })
 public class MotionPanel extends JPanel{
     private Point initialClick;
     @SuppressWarnings("unused")

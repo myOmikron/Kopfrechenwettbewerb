@@ -2,12 +2,14 @@ package de.omikron.main;
 
 public class Schueler {
 	
+	private Klasse klasse;
 	private String name;
 	private int points;
 	
-	public Schueler(String name) {
+	public Schueler(String name, Klasse klasse) {
 		this.setName(name);
 		this.points = 0;
+		this.setKlasse(klasse);
 	}
 
 	public String getName() {
@@ -30,5 +32,13 @@ public class Schueler {
 		if(this.points > 0) {
 			this.points--;
 		}
+	}
+
+	public Klasse getKlasse() {
+		return klasse;
+	}
+
+	public void setKlasse(Klasse klasse) {
+		this.klasse = klasse;
 	}
 }

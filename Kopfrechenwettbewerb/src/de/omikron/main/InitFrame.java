@@ -4,8 +4,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
+
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,15 +24,19 @@ public class InitFrame extends JFrame {
 
 	private JPanel contentPane = new MotionPanel(this);
 	
-	private JPanel sidePanel = new JPanel(null), titlePanel = new JPanel(null), topPanel = new JPanel(null);
+	private JPanel sidePanel = new JPanel(null), titlePanel = new JPanel(null), topPanel = new JPanel(null), midPanel = new JPanel(null);
 	private JPanel gameSidePanel = new JPanel(null), settingsSidePanel = new JPanel(null), restartSidePanel = new JPanel(null);
 	private JPanel gameTitlePanel = new JPanel(null), settingsTitlePanel = new JPanel(null), restartTitlePanel = new JPanel(null);
+	private JPanel gameMidPanel = new JPanel(null), settingsMidPanel = new JPanel(null), restartMidPanel = new JPanel(null);
 
 	private JLabel lblClose, lblTitle;
 	private JLabel lblLogo;
 	private JLabel lblSettingsLogo, lblPlayLogo, lblRestartLogo, lblSettings, lblPlay, lblRestart;
 	private JLabel lblCopyright;
 	private JLabel lblSettingsTitleLogo, lblPlayTitleLogo, lblRestartTitleLogo, lblSettingsTitle, lblPlayTitle, lblRestartTitle;
+	private JLabel lblSettingsMidGameLength;
+	
+	private JSlider sliSettingsMidGameLength;
 	
 	private final Color brightPurple = new Color(140, 26, 255), darkPurple = new Color(64, 0, 128);
 	private final Color menuePurple = new Color(77, 0, 153), menueOverPurple = new Color(102, 0, 204);
@@ -36,23 +49,70 @@ public class InitFrame extends JFrame {
 	
 	private boolean gameSide, settingsSide, restartSide;
 	
-	public InitFrame() {
+	private Backend backend;
+	
+	public InitFrame(Backend backend) {
 		super("Kopfrechenwettbewerb");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 650);
 		setUndecorated(true);
 		setContentPane(contentPane);
+		
+		this.backend = backend;
 	}
 	
 	protected void init() {
+		
+		
+		sliSettingsMidGameLength = new JSlider(SwingConstants.HORIZONTAL);
+		sliSettingsMidGameLength.setMinimum(10);
+		sliSettingsMidGameLength.setMaximum(25);
+		sliSettingsMidGameLength.setPaintTicks(true);
+		sliSettingsMidGameLength.setMajorTickSpacing(5);
+		sliSettingsMidGameLength.setPaintLabels(true);
+		sliSettingsMidGameLength.setOpaque(false);
+		sliSettingsMidGameLength.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				VarSettings.setGameLength(sliSettingsMidGameLength.getValue());
+			}
+		});
+		sliSettingsMidGameLength.setSnapToTicks(true);
+		sliSettingsMidGameLength.setValue(15);
+		sliSettingsMidGameLength.setBounds(20, 45, 225, 50);
+		settingsMidPanel.add(sliSettingsMidGameLength);
+		
+		lblSettingsMidGameLength = new JLabel("Gew" + '\u00fc' + "nschte Spielzeit eingeben:");
+		lblSettingsMidGameLength.setBounds(20, 20, 300, 20);
+		lblSettingsMidGameLength.setFont(lblSettingsMidGameLength.getFont().deriveFont(14f));
+		lblSettingsMidGameLength.setForeground(darkPurple);
+		settingsMidPanel.add(lblSettingsMidGameLength);
+		
+		lblSettingsTitle = new JLabel("Einstellungen");
+		lblSettingsTitle.setFont(lblSettingsTitle.getFont().deriveFont(36f));
+		lblSettingsTitle.setForeground(white);
+		lblSettingsTitle.setBounds(110, 20, 250, 50);
+		settingsTitlePanel.add(lblSettingsTitle);
 		
 		lblSettingsTitleLogo = new JLabel(settingsLogo);
 		lblSettingsTitleLogo.setBounds(20, 20, 64, 64);
 		settingsTitlePanel.add(lblSettingsTitleLogo);
 		
+		lblPlayTitle = new JLabel("Spielen");
+		lblPlayTitle.setFont(lblPlayTitle.getFont().deriveFont(36f));
+		lblPlayTitle.setForeground(white);
+		lblPlayTitle.setBounds(110, 20, 200, 50);
+		gameTitlePanel.add(lblPlayTitle);
+		
 		lblPlayTitleLogo = new JLabel(playLogo);
 		lblPlayTitleLogo.setBounds(20, 20, 64, 64);
 		gameTitlePanel.add(lblPlayTitleLogo);
+		
+		lblRestartTitle = new JLabel("Neu starten");
+		lblRestartTitle.setBounds(110, 20, 200, 50);
+		lblRestartTitle.setFont(lblRestartTitle.getFont().deriveFont(36f));
+		lblRestartTitle.setForeground(white);
+		restartTitlePanel.add(lblRestartTitle);
 		
 		lblRestartTitleLogo = new JLabel(restartLogo);
 		lblRestartTitleLogo.setBounds(20, 20, 64, 64);
@@ -237,6 +297,25 @@ public class InitFrame extends JFrame {
 		restartTitlePanel.setVisible(false);
 		titlePanel.add(restartTitlePanel);
 		
+		settingsMidPanel.setBounds(0, 0, 775, 500);
+		settingsMidPanel.setOpaque(false);
+		settingsMidPanel.setVisible(false);
+		midPanel.add(settingsMidPanel);
+		
+		restartMidPanel.setBounds(0, 0, 775, 500);
+		restartMidPanel.setOpaque(false);
+		restartMidPanel.setVisible(false);
+		midPanel.add(restartMidPanel);
+		
+		gameMidPanel.setBounds(0, 0, 775, 500);
+		gameMidPanel.setOpaque(false);
+		gameMidPanel.setVisible(false);
+		midPanel.add(gameMidPanel);
+		
+		midPanel.setBackground(white);
+		midPanel.setBounds(225, 200, 775, 500);
+		contentPane.add(midPanel);
+		
 		titlePanel.setBackground(brightPurple);
 		titlePanel.setBounds(225, 50, 775, 150);
 		contentPane.add(titlePanel);
@@ -249,8 +328,8 @@ public class InitFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		
-		setSettingsSide();
 		
+		setSettingsSide();
 		setVisible(true);
 	}
 	
@@ -271,6 +350,9 @@ public class InitFrame extends JFrame {
 		settingsTitlePanel.setVisible(true);
 		gameTitlePanel.setVisible(false);
 		restartTitlePanel.setVisible(false);
+		settingsMidPanel.setVisible(true);
+		gameMidPanel.setVisible(false);
+		restartMidPanel.setVisible(false);
 		gameSide = false;
 		restartSide = false;
 	}
@@ -280,6 +362,9 @@ public class InitFrame extends JFrame {
 		gameTitlePanel.setVisible(true);
 		settingsTitlePanel.setVisible(false);
 		restartTitlePanel.setVisible(false);
+		gameMidPanel.setVisible(true);
+		settingsMidPanel.setVisible(false);
+		restartMidPanel.setVisible(false);
 		settingsSide = false;
 		restartSide = false;
 	}
@@ -289,6 +374,9 @@ public class InitFrame extends JFrame {
 		restartTitlePanel.setVisible(true);
 		settingsTitlePanel.setVisible(false);
 		gameTitlePanel.setVisible(false);
+		restartMidPanel.setVisible(true);
+		settingsMidPanel.setVisible(false);
+		gameMidPanel.setVisible(false);
 		settingsSide = false;
 		gameSide = false;
 	}
