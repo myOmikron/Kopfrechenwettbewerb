@@ -1,5 +1,9 @@
 package de.omikron.main;
 
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,10 +16,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -26,6 +26,7 @@ public class InitFrame extends JFrame {
 	private JPanel gameSidePanel = new JPanel(null), settingsSidePanel = new JPanel(null), restartSidePanel = new JPanel(null);
 	private JPanel gameTitlePanel = new JPanel(null), settingsTitlePanel = new JPanel(null), restartTitlePanel = new JPanel(null);
 	private JPanel gameMidPanel = new JPanel(null), settingsMidPanel = new JPanel(null), restartMidPanel = new JPanel(null);
+	private JPanel settingsMidAddPanel = new JPanel(null), settingsMidUpdatePanel = new JPanel(null), settingsMidRemovePanel = new JPanel(null);
 
 	private JLabel lblClose, lblTitle;
 	private JLabel lblLogo;
@@ -33,6 +34,8 @@ public class InitFrame extends JFrame {
 	private JLabel lblCopyright;
 	private JLabel lblSettingsTitleLogo, lblPlayTitleLogo, lblRestartTitleLogo, lblSettingsTitle, lblPlayTitle, lblRestartTitle;
 	private JLabel lblSettingsMidGameLength, lblSettingsMidGameUser, lblSettingsMidGameClass, lblSettingsMidGameName;
+	private JLabel lblSettingsMidAddLogo, lblSettingsMidUpdateLogo, lblSettingsMidRemoveLogo;
+	private JLabel lblSettingsMidAdd, lblSettingsMidUpdate, lblSettingsMidRemove;
 	
 	private JTextField tfSettingsMidClass, tfSettingsMidName;
 	
@@ -48,6 +51,9 @@ public class InitFrame extends JFrame {
 	private final ImageIcon settingsLogoSmall = new ImageIcon("res/settings_32px.png"), settingsLogo = new ImageIcon("res/settings_64px.png");
 	private final ImageIcon playLogoSmall = new ImageIcon("res/start_32px.png"), playLogo = new ImageIcon("res/start_64px.png");
 	private final ImageIcon restartLogoSmall = new ImageIcon("res/restart_32px.png"), restartLogo = new ImageIcon("res/restart_64px.png");
+	private final ImageIcon addLogoSmall = new ImageIcon("res/add_16px.png");
+	private final ImageIcon removeLogoSmall = new ImageIcon("res/remove_16px.png");
+	private final ImageIcon updateLogoSmall = new ImageIcon("res/update_16px.png");
 	
 	private boolean gameSide, settingsSide, restartSide;
 	
@@ -64,6 +70,38 @@ public class InitFrame extends JFrame {
 	}
 	
 	protected void init() {
+		lblSettingsMidRemove = new JLabel("Entfernen");
+		lblSettingsMidRemove.setBounds(25, 0, 80, 25);
+		lblSettingsMidRemove.setForeground(white);
+		lblSettingsMidRemove.setVerticalAlignment(SwingConstants.CENTER);
+		settingsMidRemovePanel.add(lblSettingsMidRemove);
+		
+		lblSettingsMidRemoveLogo = new JLabel(removeLogoSmall);
+		lblSettingsMidRemoveLogo.setBounds(5, 0, 16, 25);
+		lblSettingsMidRemoveLogo.setVerticalAlignment(SwingConstants.CENTER);
+		settingsMidRemovePanel.add(lblSettingsMidRemoveLogo);
+		
+		lblSettingsMidUpdate = new JLabel("Aktualisieren");
+		lblSettingsMidUpdate.setForeground(white);
+		lblSettingsMidUpdate.setBounds(25, 0, 80, 25);
+		lblSettingsMidUpdate.setVerticalAlignment(SwingConstants.CENTER);
+		settingsMidUpdatePanel.add(lblSettingsMidUpdate);
+		
+		lblSettingsMidUpdateLogo = new JLabel(updateLogoSmall);
+		lblSettingsMidUpdateLogo.setBounds(5, 0, 16, 25);
+		lblSettingsMidUpdateLogo.setVerticalAlignment(SwingConstants.CENTER);
+		settingsMidUpdatePanel.add(lblSettingsMidUpdateLogo);
+		
+		lblSettingsMidAdd = new JLabel("Hinzuf" + '\u00fc' + "gen");
+		lblSettingsMidAdd.setBounds(25, 0, 80, 25);
+		lblSettingsMidAdd.setForeground(white);
+		lblSettingsMidAdd.setVerticalAlignment(SwingConstants.CENTER);
+		settingsMidAddPanel.add(lblSettingsMidAdd);
+		
+		lblSettingsMidAddLogo = new JLabel(addLogoSmall);
+		lblSettingsMidAddLogo.setBounds(5, 0, 16, 25);
+		lblSettingsMidAddLogo.setVerticalAlignment(SwingConstants.CENTER);
+		settingsMidAddPanel.add(lblSettingsMidAddLogo);
 		
 		listSettingsMidTable = new JList<>();
 		listSettingsMidTable.setBounds(365, 20, 390, 410);
@@ -331,6 +369,18 @@ public class InitFrame extends JFrame {
 		restartTitlePanel.setOpaque(false);
 		restartTitlePanel.setVisible(false);
 		titlePanel.add(restartTitlePanel);
+		
+		settingsMidRemovePanel.setBounds(250, 215, 105, 25);
+		settingsMidRemovePanel.setBackground(menuePurple);
+		settingsMidPanel.add(settingsMidRemovePanel);
+		
+		settingsMidUpdatePanel.setBounds(250, 185, 105, 25);
+		settingsMidUpdatePanel.setBackground(menuePurple);
+		settingsMidPanel.add(settingsMidUpdatePanel);
+		
+		settingsMidAddPanel.setBounds(250, 155, 105, 25);
+		settingsMidAddPanel.setBackground(menuePurple);
+		settingsMidPanel.add(settingsMidAddPanel);
 		
 		settingsMidPanel.setBounds(0, 0, 775, 500);
 		settingsMidPanel.setOpaque(false);
