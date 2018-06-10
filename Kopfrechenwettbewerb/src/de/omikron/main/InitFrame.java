@@ -3,21 +3,19 @@ package de.omikron.main;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
-
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -34,7 +32,11 @@ public class InitFrame extends JFrame {
 	private JLabel lblSettingsLogo, lblPlayLogo, lblRestartLogo, lblSettings, lblPlay, lblRestart;
 	private JLabel lblCopyright;
 	private JLabel lblSettingsTitleLogo, lblPlayTitleLogo, lblRestartTitleLogo, lblSettingsTitle, lblPlayTitle, lblRestartTitle;
-	private JLabel lblSettingsMidGameLength;
+	private JLabel lblSettingsMidGameLength, lblSettingsMidGameUser, lblSettingsMidGameClass, lblSettingsMidGameName;
+	
+	private JTextField tfSettingsMidClass, tfSettingsMidName;
+	
+	private JList<String> listSettingsMidTable;
 	
 	private JSlider sliSettingsMidGameLength;
 	
@@ -63,6 +65,39 @@ public class InitFrame extends JFrame {
 	
 	protected void init() {
 		
+		listSettingsMidTable = new JList<>();
+		listSettingsMidTable.setBounds(365, 20, 390, 410);
+		listSettingsMidTable.setBorder(new LineBorder(darkPurple));
+		listSettingsMidTable.setForeground(darkPurple);
+		settingsMidPanel.add(listSettingsMidTable);
+		
+		tfSettingsMidName = new JTextField();
+		tfSettingsMidName.setForeground(darkPurple);
+		tfSettingsMidName.setBounds(80, 155, 160, 20);
+		settingsMidPanel.add(tfSettingsMidName);
+		
+		tfSettingsMidClass = new JTextField();
+		tfSettingsMidClass.setForeground(darkPurple);
+		tfSettingsMidClass.setBounds(20, 155, 50, 20);
+		settingsMidPanel.add(tfSettingsMidClass);
+		
+		lblSettingsMidGameName = new JLabel("Name");
+		lblSettingsMidGameName.setFont(lblSettingsMidGameName.getFont().deriveFont(12f));
+		lblSettingsMidGameName.setForeground(darkPurple);
+		lblSettingsMidGameName.setBounds(80, 130, 80, 20);
+		settingsMidPanel.add(lblSettingsMidGameName);
+		
+		lblSettingsMidGameClass = new JLabel("Klasse");
+		lblSettingsMidGameClass.setBounds(20, 130, 80, 20);
+		lblSettingsMidGameClass.setFont(lblSettingsMidGameClass.getFont().deriveFont(12f));
+		lblSettingsMidGameClass.setForeground(darkPurple);
+		settingsMidPanel.add(lblSettingsMidGameClass);
+		
+		lblSettingsMidGameUser = new JLabel("Teilnehmerverwaltung");
+		lblSettingsMidGameUser.setBounds(20, 100, 200, 30);
+		lblSettingsMidGameUser.setFont(lblSettingsMidGameUser.getFont().deriveFont(14f));
+		lblSettingsMidGameUser.setForeground(darkPurple);
+		settingsMidPanel.add(lblSettingsMidGameUser);
 		
 		sliSettingsMidGameLength = new JSlider(SwingConstants.HORIZONTAL);
 		sliSettingsMidGameLength.setMinimum(10);
