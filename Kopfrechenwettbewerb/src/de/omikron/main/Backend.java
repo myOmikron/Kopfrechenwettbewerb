@@ -19,6 +19,15 @@ public class Backend {
 		front.init();
 	}
 	
+	public void addPoint(Schueler schueler) {
+		schueler.addPoint();
+	}
+	
+	public boolean removePoint(Schueler schueler) {
+		boolean tmp = schueler.removePoint();
+		return tmp;
+	}
+	
 	public boolean removeSchueler(String name) {
 		return rmSchueler(name);
 	}
@@ -99,6 +108,12 @@ public class Backend {
 			}
 		}
 		return false;
+	}
+	
+	public void reset() {
+		klassen = new ArrayList<>();
+		schueler = new ArrayList<>();
+		front.updateList(schueler);
 	}
 
 }

@@ -28,10 +28,12 @@ public class Schueler {
 		this.points++;
 	}
 	
-	public void removePoint() {
+	public boolean removePoint() {
 		if(this.points > 0) {
 			this.points--;
+			return true;
 		}
+		return false;
 	}
 
 	public Klasse getKlasse() {
