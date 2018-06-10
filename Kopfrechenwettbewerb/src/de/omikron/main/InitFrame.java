@@ -3,7 +3,9 @@ package de.omikron.main;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -40,11 +43,13 @@ public class InitFrame extends JFrame {
 	private JTextField tfSettingsMidClass, tfSettingsMidName;
 	
 	private JList<String> listSettingsMidTable;
+	private DefaultListModel<String> model;
 	
 	private JSlider sliSettingsMidGameLength;
 	
 	private final Color brightPurple = new Color(140, 26, 255), darkPurple = new Color(64, 0, 128);
 	private final Color menuePurple = new Color(77, 0, 153), menueOverPurple = new Color(102, 0, 204);
+	private final Color notEditablePurple = new Color(191, 128, 255);
 	private final Color white = new Color(252, 252, 252);
 	
 	private final ImageIcon sgpLogo = new ImageIcon("res/sgpSmall.png");
@@ -56,6 +61,7 @@ public class InitFrame extends JFrame {
 	private final ImageIcon updateLogoSmall = new ImageIcon("res/update_16px.png");
 	
 	private boolean gameSide, settingsSide, restartSide;
+	private boolean enabledUpdate, enabledDelete;
 	
 	private Backend backend;
 	
@@ -70,6 +76,7 @@ public class InitFrame extends JFrame {
 	}
 	
 	protected void init() {
+	
 		lblSettingsMidRemove = new JLabel("Entfernen");
 		lblSettingsMidRemove.setBounds(25, 0, 80, 25);
 		lblSettingsMidRemove.setForeground(white);
@@ -103,7 +110,9 @@ public class InitFrame extends JFrame {
 		lblSettingsMidAddLogo.setVerticalAlignment(SwingConstants.CENTER);
 		settingsMidAddPanel.add(lblSettingsMidAddLogo);
 		
-		listSettingsMidTable = new JList<>();
+		model = new DefaultListModel<>();
+		listSettingsMidTable = new JList<>(model);
+		listSettingsMidTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listSettingsMidTable.setBounds(365, 20, 390, 410);
 		listSettingsMidTable.setBorder(new LineBorder(darkPurple));
 		listSettingsMidTable.setForeground(darkPurple);
@@ -371,15 +380,86 @@ public class InitFrame extends JFrame {
 		titlePanel.add(restartTitlePanel);
 		
 		settingsMidRemovePanel.setBounds(250, 215, 105, 25);
-		settingsMidRemovePanel.setBackground(menuePurple);
+		settingsMidRemovePanel.setBackground(notEditablePurple);
+		settingsMidRemovePanel.addMouseListener(new MouseListener() {
+			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseReleased(MouseEvent e) {  }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(isEnabledDelete()) {
+					settingsMidRemovePanel.setBackground(menueOverPurple);
+				}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(isEnabledDelete()) {
+					settingsMidRemovePanel.setBackground(menuePurple);
+				}
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		settingsMidPanel.add(settingsMidRemovePanel);
 		
 		settingsMidUpdatePanel.setBounds(250, 185, 105, 25);
-		settingsMidUpdatePanel.setBackground(menuePurple);
+		settingsMidUpdatePanel.setBackground(notEditablePurple);
+		settingsMidUpdatePanel.addMouseListener(new MouseListener() {
+			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseReleased(MouseEvent e) {  }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if(isEnabledUpdate()) {
+					settingsMidUpdatePanel.setBackground(menueOverPurple);
+				}
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(isEnabledUpdate()) {
+					settingsMidUpdatePanel.setBackground(menuePurple);
+				}
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		settingsMidPanel.add(settingsMidUpdatePanel);
 		
 		settingsMidAddPanel.setBounds(250, 155, 105, 25);
 		settingsMidAddPanel.setBackground(menuePurple);
+		settingsMidAddPanel.addMouseListener(new MouseListener() {
+			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseReleased(MouseEvent e) {  }
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				settingsMidAddPanel.setBackground(menueOverPurple);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				settingsMidAddPanel.setBackground(menuePurple);
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String name = tfSettingsMidName.getText();
+				String klasse = tfSettingsMidClass.getText();
+				if(Controller.isNotEmpty(name) &&
+						Controller.isNotEmpty(klasse) &&
+						Controller.checkClassInput(klasse)) {
+					backend.addSchueler(name, klasse);
+					tfSettingsMidClass.setText("");
+					tfSettingsMidName.setText("");
+					tfSettingsMidClass.requestFocus();
+				}
+			}
+		});
 		settingsMidPanel.add(settingsMidAddPanel);
 		
 		settingsMidPanel.setBounds(0, 0, 775, 500);
@@ -412,10 +492,17 @@ public class InitFrame extends JFrame {
 		contentPane.setBackground(white);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
-		
-		
+
 		setSettingsSide();
+		setEnabledDelete(false);
+		setEnabledUpdate(false);
 		setVisible(true);
+	}
+	
+	public void updateList(ArrayList<Schueler> list) {
+		for(int i = 0; i < backend.getSchueler().size(); i++) {
+			model.addElement(list.get(i).getKlasse().getName() + "            " + list.get(i).getName());
+		}
 	}
 	
 	private boolean isSettingsSide() {
@@ -464,5 +551,21 @@ public class InitFrame extends JFrame {
 		gameMidPanel.setVisible(false);
 		settingsSide = false;
 		gameSide = false;
+	}
+
+	private boolean isEnabledUpdate() {
+		return enabledUpdate;
+	}
+
+	private void setEnabledUpdate(boolean enabledUpdate) {
+		this.enabledUpdate = enabledUpdate;
+	}
+
+	private boolean isEnabledDelete() {
+		return enabledDelete;
+	}
+
+	private void setEnabledDelete(boolean enabledDelete) {
+		this.enabledDelete = enabledDelete;
 	}
 }

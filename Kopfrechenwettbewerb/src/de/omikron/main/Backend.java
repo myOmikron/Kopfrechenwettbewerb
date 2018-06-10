@@ -7,13 +7,15 @@ public class Backend {
 	private ArrayList<Klasse> klassen;
 	private ArrayList<Schueler> schueler;
 	
+	private InitFrame front;
+	
 	public Backend() {
 		klassen = new ArrayList<>();
 		schueler = new ArrayList<>();
 	}
 	
 	public void init() {
-		InitFrame front = new InitFrame(this);
+		front = new InitFrame(this);
 		front.init();
 	}
 	
@@ -22,11 +24,12 @@ public class Backend {
 	}
 	
 	public boolean addSchueler(String newSchueler, String klasse) {
+		klasse = klasse.toUpperCase();
 		Klasse kl = addKlasse(klasse);
 		if(!appendSchueler(newSchueler, kl)) {
 			return false;
 		}
-		
+		front.updateList(schueler);
 		return true;
 	}
 
@@ -63,6 +66,10 @@ public class Backend {
 			tmp.add(klassen.get(i).getName());
 		}
 		return tmp;
+	}
+	
+	public ArrayList<Schueler> getSchuelerlist() {
+		return schueler;
 	}
 	
 	public ArrayList<String> getSchueler() {
