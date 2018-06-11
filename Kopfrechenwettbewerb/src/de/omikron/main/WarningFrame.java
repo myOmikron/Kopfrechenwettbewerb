@@ -24,7 +24,7 @@ public class WarningFrame extends JFrame {
 	public void setWarning(String warning) {
 		lblWarning = new JLabel(warning);
 		lblWarning.setBounds(0, 0, 400, 200);
-		lblWarning.setFont(lblWarning.getFont().deriveFont(30f));
+		lblWarning.setFont(lblWarning.getFont().deriveFont(22f));
 		lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWarning.setVerticalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblWarning);

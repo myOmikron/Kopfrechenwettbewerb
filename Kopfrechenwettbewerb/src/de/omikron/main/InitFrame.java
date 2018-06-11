@@ -4,21 +4,24 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import javafx.scene.control.ToggleButton;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -40,6 +43,7 @@ public class InitFrame extends JFrame {
 	private JLabel lblSettingsMidAddLogo, lblSettingsMidUpdateLogo, lblSettingsMidRemoveLogo;
 	private JLabel lblSettingsMidAdd, lblSettingsMidUpdate, lblSettingsMidRemove;
 	private JLabel lblRestartInfo, lblRestartOkay;
+	private JLabel lblStartTime;
 	private ArrayList<JLabel> lblGameUserList = new ArrayList<>(), lblGameUserPlotList = new ArrayList<>();
 	private ArrayList<JLabel> lblGameUserAdd = new ArrayList<>(), lblGameUserRemove = new ArrayList<>();
 	
@@ -49,6 +53,8 @@ public class InitFrame extends JFrame {
 	private DefaultListModel<String> model;
 	
 	private JSlider sliSettingsMidGameLength;
+	
+	private JProgressBar pbarTime;
 	
 	private final Color brightPurple = new Color(140, 26, 255), darkPurple = new Color(64, 0, 128);
 	private final Color menuePurple = new Color(77, 0, 153), menueOverPurple = new Color(102, 0, 204);
@@ -66,8 +72,6 @@ public class InitFrame extends JFrame {
 	private boolean gameSide, settingsSide, restartSide;
 	private boolean enabledUpdate, enabledDelete;
 	
-	private int counter;
-	
 	private Backend backend;
 	
 	public InitFrame(Backend backend) {
@@ -81,6 +85,36 @@ public class InitFrame extends JFrame {
 	}
 	
 	protected void init() {
+		pbarTime = new JProgressBar(0, VarSettings.getGameLength());
+		pbarTime.setBounds(120, 400, 500, 20);
+		gameMidPanel.add(pbarTime);
+		
+		lblStartTime = new JLabel("Start");
+		lblStartTime.setForeground(white);
+		lblStartTime.setBackground(menuePurple);
+		lblStartTime.setOpaque(true);
+		lblStartTime.setBounds(20, 400, 80, 20);
+		lblStartTime.addMouseListener(new MouseListener() {
+			@Override public void mouseReleased(MouseEvent e) {  }
+			@Override public void mousePressed(MouseEvent e) {  }
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblStartTime.setBackground(menuePurple);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblStartTime.setBackground(menueOverPurple);
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		lblStartTime.setHorizontalAlignment(SwingConstants.CENTER);
+		gameMidPanel.add(lblStartTime);
+		
 		lblRestartOkay = new JLabel("Okay");
 		lblRestartOkay.setBounds(310, 60, 150, 30);
 		lblRestartOkay.setFont(lblRestartOkay.getFont().deriveFont(16f));
@@ -540,93 +574,114 @@ public class InitFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public void updateList(ArrayList<Schueler> list) {
+	public void resetList() {
 		model.removeAllElements();
 		lblGameUserList = new ArrayList<>();
-		lblGameUserPlotList = new ArrayList<>();
 		lblGameUserAdd = new ArrayList<>();
 		lblGameUserRemove = new ArrayList<>();
-		for(int i = 0; i < backend.getSchueler().size(); i++) {
-			model.addElement(list.get(i).getKlasse().getName() + "            " + list.get(i).getName());
-		}
-		for(int i = 0; i < list.size(); i++) {
-			JLabel lblUser = new JLabel(list.get(i).getKlasse().getName() + "   " + list.get(i).getName());
-			lblUser.setForeground(darkPurple);
-			lblUser.setBounds(20, 20+(i*30), 150, 20);
-			lblUser.setHorizontalAlignment(SwingConstants.LEFT);
-			gameMidPanel.add(lblUser);
-			lblGameUserList.add(lblUser);
+		lblGameUserPlotList = new ArrayList<>();
+	}
+	
+	public void updateList(Schueler newSchueler, int i) {
+		if(i >= model.getSize()) {
+			model.addElement(newSchueler.getKlasse().getName() + "         " + newSchueler.getName());
 			
-			counter = i;
-			JLabel lblAdd = new JLabel("+");
-			lblAdd.setBounds(180, 20+(i*30), 20, 20);
-			lblAdd.setBackground(menuePurple);
-			lblAdd.setOpaque(true);
-			lblAdd.addMouseListener(new MouseListener() {
+			JLabel lblGameUserName = new JLabel(newSchueler.getKlasse().getName() + "  " + newSchueler.getName());
+			lblGameUserName.setForeground(darkPurple);
+			lblGameUserName.setBounds(20, 20+(25*i), 150, 20);
+			gameMidPanel.add(lblGameUserName);
+			lblGameUserList.add(lblGameUserName);
+			
+			JLabel lblGameUserAdd = new JLabel("+");
+			lblGameUserAdd.setFont(lblGameUserAdd.getFont().deriveFont(18f));
+			lblGameUserAdd.setForeground(white);
+			lblGameUserAdd.setBackground(menuePurple);
+			lblGameUserAdd.setOpaque(true);
+			lblGameUserAdd.setVerticalAlignment(SwingConstants.CENTER);
+			lblGameUserAdd.setHorizontalAlignment(SwingConstants.CENTER);
+			lblGameUserAdd.addMouseListener(new MouseListener() {
 				@Override public void mouseReleased(MouseEvent e) {  }
 				@Override public void mousePressed(MouseEvent e) {  }
 				@Override
 				public void mouseExited(MouseEvent e) {
-					lblAdd.setBackground(menuePurple);
+					lblGameUserAdd.setBackground(menuePurple);
 				}
 				
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					lblAdd.setBackground(menueOverPurple);
+					lblGameUserAdd.setBackground(menueOverPurple);
 				}
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					backend.addPoint(list.get(counter));
+					if(newSchueler.getPoints() < 100) {
+						backend.addPoint(newSchueler);
+						JLabel lblPlotLength = lblGameUserPlotList.get(i);
+						lblPlotLength.setSize(lblPlotLength.getSize().width+5, lblPlotLength.getSize().height);
+						lblPlotLength.setText(String.valueOf(newSchueler.getPoints()));
+						lblGameUserPlotList.set(i, lblPlotLength);
+					} else {
+						WarningFrame wf = new WarningFrame();
+						wf.setWarning("Mehr als 100 Punkte sind nicht erlaubt!");
+					}
 				}
 			});
-			lblAdd.setForeground(white);
-			lblAdd.setFont(lblAdd.getFont().deriveFont(18f));
-			lblAdd.setHorizontalAlignment(SwingConstants.CENTER);
-			lblAdd.setVerticalAlignment(SwingConstants.CENTER);
-			gameMidPanel.add(lblAdd);
-			lblGameUserAdd.add(lblAdd);
-
-			JLabel lblRemove = new JLabel("-");
-			lblRemove.setBounds(210, 20+(i*30), 20, 20);
-			lblRemove.setBackground(menuePurple);
-			lblRemove.setFont(lblRemove.getFont().deriveFont(18f));
-			lblRemove.setOpaque(true);
-			lblRemove.addMouseListener(new MouseListener() {
+			lblGameUserAdd.setBounds(180, 20+(i*25), 20, 20);
+			gameMidPanel.add(lblGameUserAdd);
+			this.lblGameUserAdd.add(lblGameUserAdd);
+			
+			JLabel lblGameUserRemove = new JLabel("-");
+			lblGameUserRemove.setFont(lblGameUserRemove.getFont().deriveFont(18f));
+			lblGameUserRemove.setForeground(white);
+			lblGameUserRemove.setBackground(menuePurple);
+			lblGameUserRemove.setOpaque(true);
+			lblGameUserRemove.setVerticalAlignment(SwingConstants.CENTER);
+			lblGameUserRemove.setHorizontalAlignment(SwingConstants.CENTER);
+			lblGameUserRemove.addMouseListener(new MouseListener() {
 				@Override public void mouseReleased(MouseEvent e) {  }
 				@Override public void mousePressed(MouseEvent e) {  }
 				@Override
 				public void mouseExited(MouseEvent e) {
-					lblRemove.setBackground(menuePurple);
+					lblGameUserRemove.setBackground(menuePurple);
 				}
 				
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					lblRemove.setBackground(menueOverPurple);
+					lblGameUserRemove.setBackground(menueOverPurple);
 				}
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					backend.removePoint(list.get(counter));
+					boolean isSuccessfull = backend.removePoint(newSchueler);
+					if(isSuccessfull) {
+						JLabel lblPlotLength = lblGameUserPlotList.get(i);
+						lblPlotLength.setSize(lblPlotLength.getSize().width-5, lblPlotLength.getSize().height);
+						lblPlotLength.setText(String.valueOf(newSchueler.getPoints()));
+						lblGameUserPlotList.set(i, lblPlotLength);
+					} else {
+						WarningFrame wf = new WarningFrame();
+						wf.setWarning("Weniger als 0 Punkte sind nicht erlaubt!");
+					}
 				}
 			});
-			lblRemove.setForeground(white);
-			lblRemove.setHorizontalAlignment(SwingConstants.CENTER);
-			lblRemove.setVerticalAlignment(SwingConstants.CENTER);
-			gameMidPanel.add(lblRemove);
-			lblGameUserRemove.add(lblRemove);
+			lblGameUserRemove.setBounds(210, 20+(25*i), 20, 20);
+			gameMidPanel.add(lblGameUserRemove);
+			this.lblGameUserRemove.add(lblGameUserRemove);
 			
-			int points = list.get(counter).getPoints();
-			JLabel lblPlot = new JLabel(String.valueOf(points));
-			lblPlot.setForeground(white);
-			lblPlot.setBackground(menuePurple);
-			lblPlot.setFont(lblPlot.getFont().deriveFont(16f));
-			lblPlot.setOpaque(true);
-			lblPlot.setHorizontalAlignment(SwingConstants.CENTER);
-			lblPlot.setVerticalAlignment(SwingConstants.CENTER);
-			lblPlot.setBounds(240, 20+(i*30), 30+(points*10), 20);
-			gameMidPanel.add(lblPlot);
-			lblGameUserPlotList.add(lblPlot);
+			JLabel lblGameUserPlot = new JLabel(String.valueOf(newSchueler.getPoints()));
+			lblGameUserPlot.setBounds(240, 20+(i*25), 20, 20);
+			lblGameUserPlot.setForeground(white);
+			lblGameUserPlot.setFont(lblGameUserPlot.getFont().deriveFont(18f));
+			lblGameUserPlot.setBackground(menuePurple);
+			lblGameUserPlot.setOpaque(true);
+			lblGameUserPlot.setHorizontalAlignment(SwingConstants.CENTER);
+			gameMidPanel.add(lblGameUserPlot);
+			this.lblGameUserPlotList.add(lblGameUserPlot);
+			
+		} else {
+			model.set(i, newSchueler.getKlasse().getName() + "         " + newSchueler.getName());
+			
+			
 		}
 	}
 	

@@ -38,7 +38,7 @@ public class Backend {
 		if(!appendSchueler(newSchueler, kl)) {
 			return false;
 		}
-		front.updateList(schueler);
+		front.updateList(schueler.get(schueler.size()-1), schueler.size()-1);
 		return true;
 	}
 
@@ -113,7 +113,7 @@ public class Backend {
 	public void reset() {
 		klassen = new ArrayList<>();
 		schueler = new ArrayList<>();
-		front.updateList(schueler);
+		front.resetList();
 	}
 
 }
