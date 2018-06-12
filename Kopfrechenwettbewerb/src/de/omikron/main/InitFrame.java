@@ -15,13 +15,10 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import javafx.scene.control.ToggleButton;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -239,7 +236,7 @@ public class InitFrame extends JFrame {
 		sliSettingsMidGameLength.setBounds(20, 45, 225, 50);
 		settingsMidPanel.add(sliSettingsMidGameLength);
 		
-		lblSettingsMidGameLength = new JLabel("Gew" + '\u00fc' + "nschte Spielzeit eingeben:");
+		lblSettingsMidGameLength = new JLabel("Gew" + '\u00fc' + "nschte Rundenzeit eingeben:");
 		lblSettingsMidGameLength.setBounds(20, 20, 300, 20);
 		lblSettingsMidGameLength.setFont(lblSettingsMidGameLength.getFont().deriveFont(14f));
 		lblSettingsMidGameLength.setForeground(darkPurple);
