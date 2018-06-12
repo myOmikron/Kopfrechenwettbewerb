@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
@@ -15,11 +16,10 @@ public class WarningFrame extends JFrame {
 	
 	private JPanel sidePanel = new JPanel(null), midPanel = new JPanel(null), titlePanel = new JPanel(null);
 	
-	private JLabel lblTitle;
+	private JLabel lblTitle, lblWarning;
+	private JTextArea taMid;
 	
 	private JPanel contentPane = new MotionPanel(this);
-	
-	private JLabel lblWarning;
 	
 	public WarningFrame() {
 		setUndecorated(true);
@@ -27,26 +27,33 @@ public class WarningFrame extends JFrame {
 		setBounds(300, 300, 400, 200);
 		setContentPane(contentPane);
 		
+		lblWarning = new JLabel("Warnung");
+		lblWarning.setForeground(white);
+		lblWarning.setVerticalAlignment(SwingConstants.CENTER);
+		lblWarning.setBounds(10, 0, 325, 70);
+		lblWarning.setFont(lblWarning.getFont().deriveFont(24f));
+		titlePanel.add(lblWarning);
+		
 		lblTitle = new JLabel();
 		lblTitle.setText("Kopfrechenwettbewerb");
 		lblTitle.setFont(lblTitle.getFont().deriveFont(18f));
-		lblTitle.setBounds(160, 0, 240, 30);
+		lblTitle.setBounds(85, 0, 285, 30);
 		lblTitle.setVerticalAlignment(SwingConstants.CENTER);
-		lblTitle.setForeground(lightRed);
+		lblTitle.setForeground(darkRed);
 		contentPane.add(lblTitle);
 		
 		sidePanel.setBackground(darkRed);
 		sidePanel.setOpaque(true);
-		sidePanel.setBounds(0, 0, 150, 200);
+		sidePanel.setBounds(0, 0, 75, 200);
 		contentPane.add(sidePanel);
 		
 		midPanel.setBackground(white);
 		midPanel.setOpaque(true);
-		midPanel.setBounds(150, 100, 250, 100);
+		midPanel.setBounds(75, 100, 325, 100);
 		contentPane.add(midPanel);
 		
 		titlePanel.setBackground(lightRed);
-		titlePanel.setBounds(150, 30, 250, 70);
+		titlePanel.setBounds(75, 30, 325, 70);
 		contentPane.add(titlePanel);
 		
 		contentPane.setLayout(null);
@@ -55,12 +62,12 @@ public class WarningFrame extends JFrame {
 	}
 	
 	public void setWarning(String warning) {
-		lblWarning = new JLabel(warning);
-		lblWarning.setBounds(0, 0, 400, 200);
-		lblWarning.setFont(lblWarning.getFont().deriveFont(22f));
-		lblWarning.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWarning.setVerticalAlignment(SwingConstants.CENTER);
-		contentPane.add(lblWarning);
+		taMid = new JTextArea(warning);
+		taMid.setEditable(false);
+		taMid.setBounds(10, 10, 185, 60);
+		taMid.setForeground(darkRed);
+		taMid.setFont(taMid.getFont().deriveFont(16f));
+		midPanel.add(taMid);
 	}
 	
 }
