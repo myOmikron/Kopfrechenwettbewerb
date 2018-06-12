@@ -1,20 +1,20 @@
 package de.omikron.main;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 @SuppressWarnings({ "serial" })
 public class MotionPanel extends JPanel{
     private Point initialClick;
     @SuppressWarnings("unused")
-	private JFrame parent;
+	private Component parent;
 
-    public MotionPanel(final JFrame parent){
+    public MotionPanel(final Component parent){
     this.parent = parent;
     
     addMouseListener(new MouseAdapter() {
