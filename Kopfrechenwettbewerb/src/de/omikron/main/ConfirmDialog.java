@@ -56,7 +56,7 @@ public class ConfirmDialog extends JDialog {
 		titlePanel.add(lblWarningLogo);
 		
 		lblTitle = new JLabel();
-		lblTitle.setText("Kopfrechenwettbewerb");
+		lblTitle.setText("Kopfrechnenwettbewerb");
 		lblTitle.setFont(lblTitle.getFont().deriveFont(18f));
 		lblTitle.setBounds(85, 0, 285, 30);
 		lblTitle.setVerticalAlignment(SwingConstants.CENTER);

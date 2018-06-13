@@ -1,7 +1,6 @@
 package de.omikron.main;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -107,7 +105,7 @@ public class InitFrame extends JFrame {
 		lblStartTime.setBounds(20, 400, 80, 20);
 		lblStartTime.addMouseListener(new MouseListener() {
 			@Override public void mouseReleased(MouseEvent e) {  }
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override
 			public void mouseExited(MouseEvent e) {
 				lblStartTime.setBackground(menuePurple);
@@ -119,7 +117,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				
 			}
 		});
@@ -134,7 +132,7 @@ public class InitFrame extends JFrame {
 		lblRestartOkay.setOpaque(true);
 		lblRestartOkay.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRestartOkay.addMouseListener(new MouseListener() {
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override public void mouseReleased(MouseEvent e) {  }
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -147,7 +145,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				backend.reset();
 				VarSettings.setGameLength(15);
 				sliSettingsMidGameLength.setValue(15);
@@ -344,18 +342,18 @@ public class InitFrame extends JFrame {
 		lblClose.addMouseListener(new MouseListener() {
 			@Override public void mouseEntered(MouseEvent e) {  }
 			@Override public void mouseExited(MouseEvent e) {  }
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override public void mouseReleased(MouseEvent e) {  }
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				dispose();
 			}
 		});
 		lblClose.setVisible(true);
 		topPanel.add(lblClose);
 
-		lblTitle = new JLabel("Kopfrechenwettbewerb");
+		lblTitle = new JLabel("Kopfrechnenwettbewerb");
 		lblTitle.setFont(lblTitle.getFont().deriveFont(16f));
 		lblTitle.setBounds(20, 10, 300, 30);
 		lblTitle.setForeground(darkPurple);
@@ -365,7 +363,7 @@ public class InitFrame extends JFrame {
 		restartSidePanel.setBackground(menuePurple);
 		restartSidePanel.addMouseListener(new MouseListener() {
 			@Override public void mouseReleased(MouseEvent e) {  }
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if(!isRestartSide()) {
@@ -379,7 +377,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				if(!isRestartSide()) {
 					restartSidePanel.setBackground(menueOverPurple);
 					settingsSidePanel.setBackground(menuePurple);
@@ -394,7 +392,7 @@ public class InitFrame extends JFrame {
 		settingsSidePanel.setBackground(menueOverPurple);
 		settingsSidePanel.addMouseListener(new MouseListener() {
 			@Override public void mouseReleased(MouseEvent e) {  }
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override
 			public void mouseExited(MouseEvent e) {
 				if(!isSettingsSide()) {
@@ -407,7 +405,7 @@ public class InitFrame extends JFrame {
 				settingsSidePanel.setBackground(menueOverPurple);
 			}
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				if(!isSettingsSide()) {
 					restartSidePanel.setBackground(menuePurple);
 					gameSidePanel.setBackground(menuePurple);
@@ -421,7 +419,7 @@ public class InitFrame extends JFrame {
 		gameSidePanel.setBounds(0, 320, 225, 70);
 		gameSidePanel.setBackground(menuePurple);
 		gameSidePanel.addMouseListener(new MouseListener() {
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override public void mouseReleased(MouseEvent e) {  }
 			@Override 
 			public void mouseEntered(MouseEvent e) {
@@ -436,7 +434,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				if(!isGameSide()) {
 					gameSidePanel.setBackground(menueOverPurple);
 					settingsSidePanel.setBackground(menuePurple);
@@ -469,7 +467,7 @@ public class InitFrame extends JFrame {
 		settingsMidRemovePanel.setBounds(250, 135, 105, 25);
 		settingsMidRemovePanel.setBackground(notEditablePurple);
 		settingsMidRemovePanel.addMouseListener(new MouseListener() {
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override public void mouseReleased(MouseEvent e) {  }
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -486,7 +484,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				
 			}
 		});
@@ -495,7 +493,7 @@ public class InitFrame extends JFrame {
 		settingsMidUpdatePanel.setBounds(250, 105, 105, 25);
 		settingsMidUpdatePanel.setBackground(notEditablePurple);
 		settingsMidUpdatePanel.addMouseListener(new MouseListener() {
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override public void mouseReleased(MouseEvent e) {  }
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -512,7 +510,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				
 			}
 		});
@@ -521,7 +519,7 @@ public class InitFrame extends JFrame {
 		settingsMidAddPanel.setBounds(250, 75, 105, 25);
 		settingsMidAddPanel.setBackground(menuePurple);
 		settingsMidAddPanel.addMouseListener(new MouseListener() {
-			@Override public void mousePressed(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override public void mouseReleased(MouseEvent e) {  }
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -534,7 +532,7 @@ public class InitFrame extends JFrame {
 			}
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {
 				String name = tfSettingsMidName.getText();
 				String klasse = tfSettingsMidClass.getText();
 				if(Controller.isNotEmpty(name) &&
@@ -624,7 +622,7 @@ public class InitFrame extends JFrame {
 			lblGameUserAdd.setHorizontalAlignment(SwingConstants.CENTER);
 			lblGameUserAdd.addMouseListener(new MouseListener() {
 				@Override public void mouseReleased(MouseEvent e) {  }
-				@Override public void mousePressed(MouseEvent e) {  }
+				@Override public void mouseClicked(MouseEvent e) {  }
 				@Override
 				public void mouseExited(MouseEvent e) {
 					lblGameUserAdd.setBackground(menuePurple);
@@ -634,9 +632,8 @@ public class InitFrame extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					lblGameUserAdd.setBackground(menueOverPurple);
 				}
-				
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mousePressed(MouseEvent e) {
 					if(newSchueler.getPoints() < 100) {
 						backend.addPoint(newSchueler);
 						JLabel lblPlotLength = lblGameUserPlotList.get(i);
@@ -661,7 +658,7 @@ public class InitFrame extends JFrame {
 			lblGameUserRemove.setHorizontalAlignment(SwingConstants.CENTER);
 			lblGameUserRemove.addMouseListener(new MouseListener() {
 				@Override public void mouseReleased(MouseEvent e) {  }
-				@Override public void mousePressed(MouseEvent e) {  }
+				@Override public void mouseClicked(MouseEvent e) {  }
 				@Override
 				public void mouseExited(MouseEvent e) {
 					lblGameUserRemove.setBackground(menuePurple);
@@ -673,7 +670,7 @@ public class InitFrame extends JFrame {
 				}
 				
 				@Override
-				public void mouseClicked(MouseEvent e) {
+				public void mousePressed(MouseEvent e) {
 					boolean isSuccessfull = backend.removePoint(newSchueler);
 					if(isSuccessfull) {
 						JLabel lblPlotLength = lblGameUserPlotList.get(i);
@@ -724,6 +721,8 @@ public class InitFrame extends JFrame {
 		gameTitlePanel.setVisible(false);
 		restartTitlePanel.setVisible(false);
 		settingsMidPanel.setVisible(true);
+		gameMidCenterPanel.setVisible(false);
+		gameMidBottomPanel.setVisible(false);
 		gameMidPanel.setVisible(false);
 		restartMidPanel.setVisible(false);
 		gameSide = false;
@@ -749,6 +748,8 @@ public class InitFrame extends JFrame {
 		restartTitlePanel.setVisible(true);
 		settingsTitlePanel.setVisible(false);
 		gameTitlePanel.setVisible(false);
+		gameMidCenterPanel.setVisible(false);
+		gameMidBottomPanel.setVisible(false);
 		restartMidPanel.setVisible(true);
 		settingsMidPanel.setVisible(false);
 		gameMidPanel.setVisible(false);
