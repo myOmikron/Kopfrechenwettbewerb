@@ -67,7 +67,7 @@ public class InitFrame extends JFrame {
 	
 	private final Color brightPurple = new Color(140, 26, 255), darkPurple = new Color(64, 0, 128);
 	private final Color menuePurple = new Color(77, 0, 153), menueOverPurple = new Color(102, 0, 204);
-	private final Color notEditablePurple = new Color(191, 128, 255);
+	private final Color notEditablePurple = new Color(204, 179, 255);
 	private final Color white = new Color(252, 252, 252);
 	
 	private final ImageIcon sgpLogo = new ImageIcon("res/sgpSmall.png");
@@ -635,19 +635,21 @@ public class InitFrame extends JFrame {
 			
 			JPanel gameListPanel = new JPanel(null);
 			gameListPanel.setOpaque(true);
-			gameListPanel.setBounds(5, 5+(i*20), 765, 30);
+			gameListPanel.setBounds(0, i*28, 775, 27);
 			if(gameIsZebra) {
 				gameListPanel.setBackground(notEditablePurple);
+				gameIsZebra = false;
 			} else {
 				gameListPanel.setBackground(white);
+				gameIsZebra = true;
 			}
 			gameMidCenterPanel.add(gameListPanel);
 			gameMidList.add(gameListPanel);
 			
 			JLabel lblGameUserName = new JLabel(newSchueler.getKlasse().getName() + "  " + newSchueler.getName());
 			lblGameUserName.setForeground(darkPurple);
-			lblGameUserName.setBounds(0, 0, 150, 20);
-			gameMidCenterPanel.add(lblGameUserName);
+			lblGameUserName.setBounds(10, 4, 150, 20);
+			gameListPanel.add(lblGameUserName);
 			lblGameUserList.add(lblGameUserName);
 			
 			JLabel lblGameUserAdd = new JLabel("+");
@@ -682,7 +684,7 @@ public class InitFrame extends JFrame {
 					}
 				}
 			});
-			lblGameUserAdd.setBounds(150, 0, 20, 20);
+			lblGameUserAdd.setBounds(185, 4, 20, 20);
 			gameListPanel.add(lblGameUserAdd);
 			this.lblGameUserAdd.add(lblGameUserAdd);
 			
@@ -719,18 +721,18 @@ public class InitFrame extends JFrame {
 					}
 				}
 			});
-			lblGameUserRemove.setBounds(210, 0, 20, 20);
-			gameMidCenterPanel.add(lblGameUserRemove);
+			lblGameUserRemove.setBounds(210, 4, 20, 20);
+			gameListPanel.add(lblGameUserRemove);
 			this.lblGameUserRemove.add(lblGameUserRemove);
 			
 			JLabel lblGameUserPlot = new JLabel(String.valueOf(newSchueler.getPoints()));
-			lblGameUserPlot.setBounds(240, 0, 20, 20);
+			lblGameUserPlot.setBounds(240, 4, 20, 20);
 			lblGameUserPlot.setForeground(white);
 			lblGameUserPlot.setFont(lblGameUserPlot.getFont().deriveFont(18f));
 			lblGameUserPlot.setBackground(menuePurple);
 			lblGameUserPlot.setOpaque(true);
 			lblGameUserPlot.setHorizontalAlignment(SwingConstants.CENTER);
-			gameMidCenterPanel.add(lblGameUserPlot);
+			gameListPanel.add(lblGameUserPlot);
 			this.lblGameUserPlotList.add(lblGameUserPlot);
 			
 		} else {
