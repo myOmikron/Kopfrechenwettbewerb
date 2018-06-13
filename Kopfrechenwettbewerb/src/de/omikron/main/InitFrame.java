@@ -40,8 +40,8 @@ public class InitFrame extends JFrame {
 	private JPanel gameMidPanel = new JPanel(null), settingsMidPanel = new JPanel(null), restartMidPanel = new JPanel(null);
 	private JPanel gameMidBottomPanel = new JPanel(null), gameMidCenterPanel = new JPanel(null);
 	private JPanel settingsMidAddPanel = new JPanel(null), settingsMidUpdatePanel = new JPanel(null), settingsMidRemovePanel = new JPanel(null);
+	private ArrayList<JPanel> gameMidList = new ArrayList<>();
 	
-
 	private JLabel lblClose, lblTitle;
 	private JLabel lblLogo;
 	private JLabel lblSettingsLogo, lblPlayLogo, lblRestartLogo, lblSettings, lblPlay, lblRestart;
@@ -80,6 +80,7 @@ public class InitFrame extends JFrame {
 	
 	private boolean gameSide, settingsSide, restartSide;
 	private boolean enabledUpdate, enabledDelete;
+	private boolean gameIsZebra;
 	
 	private Backend backend;
 	
@@ -632,9 +633,20 @@ public class InitFrame extends JFrame {
 		if(i >= model.getSize()) {
 			model.addElement(newSchueler.getKlasse().getName() + "         " + newSchueler.getName());
 			
+			JPanel gameListPanel = new JPanel(null);
+			gameListPanel.setOpaque(true);
+			gameListPanel.setBounds(5, 5+(i*20), 765, 30);
+			if(gameIsZebra) {
+				gameListPanel.setBackground(notEditablePurple);
+			} else {
+				gameListPanel.setBackground(white);
+			}
+			gameMidCenterPanel.add(gameListPanel);
+			gameMidList.add(gameListPanel);
+			
 			JLabel lblGameUserName = new JLabel(newSchueler.getKlasse().getName() + "  " + newSchueler.getName());
 			lblGameUserName.setForeground(darkPurple);
-			lblGameUserName.setBounds(20, 10+(25*i), 150, 20);
+			lblGameUserName.setBounds(0, 0, 150, 20);
 			gameMidCenterPanel.add(lblGameUserName);
 			lblGameUserList.add(lblGameUserName);
 			
@@ -670,8 +682,8 @@ public class InitFrame extends JFrame {
 					}
 				}
 			});
-			lblGameUserAdd.setBounds(180, 10+(i*25), 20, 20);
-			gameMidCenterPanel.add(lblGameUserAdd);
+			lblGameUserAdd.setBounds(150, 0, 20, 20);
+			gameListPanel.add(lblGameUserAdd);
 			this.lblGameUserAdd.add(lblGameUserAdd);
 			
 			JLabel lblGameUserRemove = new JLabel("-");
@@ -707,12 +719,12 @@ public class InitFrame extends JFrame {
 					}
 				}
 			});
-			lblGameUserRemove.setBounds(210, 10+(25*i), 20, 20);
+			lblGameUserRemove.setBounds(210, 0, 20, 20);
 			gameMidCenterPanel.add(lblGameUserRemove);
 			this.lblGameUserRemove.add(lblGameUserRemove);
 			
 			JLabel lblGameUserPlot = new JLabel(String.valueOf(newSchueler.getPoints()));
-			lblGameUserPlot.setBounds(240, 10+(i*25), 20, 20);
+			lblGameUserPlot.setBounds(240, 0, 20, 20);
 			lblGameUserPlot.setForeground(white);
 			lblGameUserPlot.setFont(lblGameUserPlot.getFont().deriveFont(18f));
 			lblGameUserPlot.setBackground(menuePurple);
