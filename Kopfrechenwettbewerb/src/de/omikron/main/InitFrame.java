@@ -634,7 +634,7 @@ public class InitFrame extends JFrame {
 			
 			JLabel lblGameUserName = new JLabel(newSchueler.getKlasse().getName() + "  " + newSchueler.getName());
 			lblGameUserName.setForeground(darkPurple);
-			lblGameUserName.setBounds(20, 20+(25*i), 150, 20);
+			lblGameUserName.setBounds(20, 10+(25*i), 150, 20);
 			gameMidCenterPanel.add(lblGameUserName);
 			lblGameUserList.add(lblGameUserName);
 			
@@ -659,18 +659,18 @@ public class InitFrame extends JFrame {
 				}
 				@Override
 				public void mousePressed(MouseEvent e) {
-					if(newSchueler.getPoints() < 100) {
+					if(newSchueler.getPoints() < 20) {
 						backend.addPoint(newSchueler);
 						JLabel lblPlotLength = lblGameUserPlotList.get(i);
-						lblPlotLength.setSize(lblPlotLength.getSize().width+5, lblPlotLength.getSize().height);
+						lblPlotLength.setSize(lblPlotLength.getSize().width+25, lblPlotLength.getSize().height);
 						lblPlotLength.setText(String.valueOf(newSchueler.getPoints()));
 						lblGameUserPlotList.set(i, lblPlotLength);
 					} else {
-						setConfirmDialog("Die maximale Punktezahl ist auf 100 limitiert!");
+						setConfirmDialog("Die maximale Punktezahl ist auf 20 limitiert!");
 					}
 				}
 			});
-			lblGameUserAdd.setBounds(180, 20+(i*25), 20, 20);
+			lblGameUserAdd.setBounds(180, 10+(i*25), 20, 20);
 			gameMidCenterPanel.add(lblGameUserAdd);
 			this.lblGameUserAdd.add(lblGameUserAdd);
 			
@@ -699,7 +699,7 @@ public class InitFrame extends JFrame {
 					boolean isSuccessfull = backend.removePoint(newSchueler);
 					if(isSuccessfull) {
 						JLabel lblPlotLength = lblGameUserPlotList.get(i);
-						lblPlotLength.setSize(lblPlotLength.getSize().width-5, lblPlotLength.getSize().height);
+						lblPlotLength.setSize(lblPlotLength.getSize().width-25, lblPlotLength.getSize().height);
 						lblPlotLength.setText(String.valueOf(newSchueler.getPoints()));
 						lblGameUserPlotList.set(i, lblPlotLength);
 					} else {
@@ -707,12 +707,12 @@ public class InitFrame extends JFrame {
 					}
 				}
 			});
-			lblGameUserRemove.setBounds(210, 20+(25*i), 20, 20);
+			lblGameUserRemove.setBounds(210, 10+(25*i), 20, 20);
 			gameMidCenterPanel.add(lblGameUserRemove);
 			this.lblGameUserRemove.add(lblGameUserRemove);
 			
 			JLabel lblGameUserPlot = new JLabel(String.valueOf(newSchueler.getPoints()));
-			lblGameUserPlot.setBounds(240, 20+(i*25), 20, 20);
+			lblGameUserPlot.setBounds(240, 10+(i*25), 20, 20);
 			lblGameUserPlot.setForeground(white);
 			lblGameUserPlot.setFont(lblGameUserPlot.getFont().deriveFont(18f));
 			lblGameUserPlot.setBackground(menuePurple);
