@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -95,14 +97,14 @@ public class InitFrame extends JFrame {
 		gameMidBottomPanel.add(lblSeperator);
 		
 		pbarTime = new JProgressBar(0, VarSettings.getGameLength());
-		pbarTime.setBounds(120, 400, 500, 20);
+		pbarTime.setBounds(390, 30, 350, 20);
 		gameMidBottomPanel.add(pbarTime);
 		
 		lblStartTime = new JLabel("Start");
 		lblStartTime.setForeground(white);
 		lblStartTime.setBackground(menuePurple);
 		lblStartTime.setOpaque(true);
-		lblStartTime.setBounds(20, 400, 80, 20);
+		lblStartTime.setBounds(290, 30, 80, 20);
 		lblStartTime.addMouseListener(new MouseListener() {
 			@Override public void mouseReleased(MouseEvent e) {  }
 			@Override public void mouseClicked(MouseEvent e) {  }
@@ -118,7 +120,7 @@ public class InitFrame extends JFrame {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+				startTime();
 			}
 		});
 		lblStartTime.setHorizontalAlignment(SwingConstants.CENTER);
@@ -554,6 +556,7 @@ public class InitFrame extends JFrame {
 		settingsMidPanel.setVisible(false);
 		midPanel.add(settingsMidPanel);
 		
+		restartMidPanel.setBounds(0, 0, 775, 475);
 		restartMidPanel.setOpaque(false);
 		restartMidPanel.setVisible(false);
 		midPanel.add(restartMidPanel);
@@ -595,12 +598,28 @@ public class InitFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public void resetList() {
-		model.removeAllElements();
-		lblGameUserList = new ArrayList<>();
-		lblGameUserAdd = new ArrayList<>();
-		lblGameUserRemove = new ArrayList<>();
-		lblGameUserPlotList = new ArrayList<>();
+	private void startTime() {
+		sliSettingsMidGameLength.setEnabled(false);
+		
+		Timer t = new Timer();
+		t.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				if(VarSettings.getGameLength() > pbarTime.getValue()) {
+					pbarTime.setValue(pbarTime.getValue()+1);
+				} else {
+					sliSettingsMidGameLength.setEnabled(true);
+					pbarTime.setValue(0);
+					t.cancel();
+				}
+			}
+		},1000, 1000);		
+
+		
+	}
+	
+	public void reset() {
+		dispose();
 	}
 	
 	public void updateList(Schueler newSchueler, int i) {

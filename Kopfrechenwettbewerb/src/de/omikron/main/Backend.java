@@ -113,7 +113,9 @@ public class Backend {
 	public void reset() {
 		klassen = new ArrayList<>();
 		schueler = new ArrayList<>();
-		front.resetList();
+		front.reset();
+		front = new InitFrame(this);
+		front.init();
 	}
 
 }
