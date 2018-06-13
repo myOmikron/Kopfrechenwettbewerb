@@ -3,10 +3,16 @@ package de.omikron.main;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -98,6 +104,7 @@ public class InitFrame extends JFrame {
 		
 		pbarTime = new JProgressBar(0, VarSettings.getGameLength());
 		pbarTime.setBounds(390, 30, 350, 20);
+		pbarTime.setStringPainted(true);
 		gameMidBottomPanel.add(pbarTime);
 		
 		lblStartTime = new JLabel("Start");
@@ -149,9 +156,6 @@ public class InitFrame extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				backend.reset();
-				VarSettings.setGameLength(15);
-				sliSettingsMidGameLength.setValue(15);
-				setSettingsSide();
 			}
 		});
 		restartMidPanel.add(lblRestartOkay);
@@ -244,6 +248,7 @@ public class InitFrame extends JFrame {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				VarSettings.setGameLength(sliSettingsMidGameLength.getValue());
+				pbarTime.setMaximum(VarSettings.getGameLength());
 			}
 		});
 		sliSettingsMidGameLength.setSnapToTicks(true);
@@ -608,6 +613,7 @@ public class InitFrame extends JFrame {
 				if(VarSettings.getGameLength() > pbarTime.getValue()) {
 					pbarTime.setValue(pbarTime.getValue()+1);
 				} else {
+					playSound();
 					sliSettingsMidGameLength.setEnabled(true);
 					pbarTime.setValue(0);
 					t.cancel();
@@ -794,5 +800,20 @@ public class InitFrame extends JFrame {
 	
 	private void setConfirmDialog(String s) {
 		new ConfirmDialog(this, true, s);
+	}
+	
+	@SuppressWarnings("resource")
+	private static void playSound() {
+		try {
+			Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(new File("res/ready.wav")));
+			clip.start();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 }
