@@ -81,7 +81,7 @@ public class InitFrame extends JFrame {
 	private final ImageIcon updateLogoSmall = new ImageIcon("res/update_16px.png");
 	
 	private boolean gameSide, settingsSide, restartSide;
-	private boolean enabledUpdate, enabledDelete;
+	private boolean enabledUpdate, enabledDelete, enabledStartTimer;
 	private boolean gameIsZebra;
 	
 	private Backend backend;
@@ -120,17 +120,23 @@ public class InitFrame extends JFrame {
 			@Override public void mouseClicked(MouseEvent e) {  }
 			@Override
 			public void mouseExited(MouseEvent e) {
-				lblStartTime.setBackground(menuePurple);
+				if(isEnabledStartTimer()) {
+					lblStartTime.setBackground(menuePurple);
+				}
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				lblStartTime.setBackground(menueOverPurple);
+				if(isEnabledStartTimer()) {
+					lblStartTime.setBackground(menueOverPurple);
+				}
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				startTime();
+				if(isEnabledStartTimer()) {
+					startTime();
+				}
 			}
 		});
 		lblStartTime.setHorizontalAlignment(SwingConstants.CENTER);
@@ -627,11 +633,14 @@ public class InitFrame extends JFrame {
 		setSettingsSide();
 		setEnabledDelete(false);
 		setEnabledUpdate(false);
+		setEnabledStartTimer(true);
 		setVisible(true);
 	}
 	
 	private void startTime() {
 		sliSettingsMidGameLength.setEnabled(false);
+		setEnabledStartTimer(false);
+		lblStartTime.setBackground(notEditablePurple);
 		
 		Timer t = new Timer();
 		t.scheduleAtFixedRate(new TimerTask() {
@@ -642,6 +651,8 @@ public class InitFrame extends JFrame {
 				} else {
 					playSound();
 					sliSettingsMidGameLength.setEnabled(true);
+					setEnabledStartTimer(true);
+					lblStartTime.setBackground(menuePurple);
 					pbarTime.setValue(0);
 					t.cancel();
 				}
@@ -836,6 +847,14 @@ public class InitFrame extends JFrame {
 
 	private void setEnabledDelete(boolean enabledDelete) {
 		this.enabledDelete = enabledDelete;
+	}
+	
+	private void setEnabledStartTimer(boolean enabledStartTimer) {
+		this.enabledStartTimer = enabledStartTimer;
+	}
+	
+	private boolean isEnabledStartTimer() {
+		return enabledStartTimer;
 	}
 	
 	@SuppressWarnings("unused")
