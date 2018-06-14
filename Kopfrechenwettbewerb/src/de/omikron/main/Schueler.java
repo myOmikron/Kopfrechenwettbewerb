@@ -28,6 +28,10 @@ public class Schueler {
 		this.points++;
 	}
 	
+	public void setPoint(int point) {
+		this.points = point;
+	}
+	
 	public boolean removePoint() {
 		if(this.points > 0) {
 			this.points--;

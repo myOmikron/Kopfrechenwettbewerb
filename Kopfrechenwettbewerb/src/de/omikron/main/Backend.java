@@ -110,6 +110,14 @@ public class Backend {
 		return false;
 	}
 	
+	public void editSchueler(String name, String klasse, int index) {
+		int points = schueler.get(index).getPoints();
+		Schueler s = new Schueler(name, new Klasse(klasse));
+		s.setPoint(points);
+		schueler.set(index, s);
+		front.updateList(s, index);
+	}
+	
 	public void reset() {
 		klassen = new ArrayList<>();
 		schueler = new ArrayList<>();

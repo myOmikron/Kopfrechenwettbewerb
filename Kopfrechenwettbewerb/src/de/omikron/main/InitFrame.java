@@ -28,6 +28,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 @SuppressWarnings("serial")
 public class InitFrame extends JFrame {
@@ -204,6 +206,17 @@ public class InitFrame extends JFrame {
 		model = new DefaultListModel<>();
 		listSettingsMidTable = new JList<>(model);
 		listSettingsMidTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listSettingsMidTable.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if(!listSettingsMidTable.isSelectionEmpty()) {
+					setEnabledUpdate(true);
+					settingsMidUpdatePanel.setBackground(menuePurple);
+					tfSettingsMidClass.setText(backend.getSchuelerlist().get(listSettingsMidTable.getSelectedIndex()).getKlasse().getName());
+					tfSettingsMidName.setText(backend.getSchuelerlist().get(listSettingsMidTable.getSelectedIndex()).getName());
+				}
+			}
+		});
 		listSettingsMidTable.setFont(listSettingsMidTable.getFont().deriveFont(16f));
 		listSettingsMidTable.setBounds(365, 20, 390, 435);
 		listSettingsMidTable.setBorder(new LineBorder(darkPurple));
@@ -519,7 +532,17 @@ public class InitFrame extends JFrame {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+				if(Controller.isNotEmpty(tfSettingsMidClass.getText()) &&
+						Controller.isNotEmpty(tfSettingsMidName.getText()) &&
+						Controller.checkClassInput(tfSettingsMidClass.getText())) {
+					backend.editSchueler(tfSettingsMidName.getText(), tfSettingsMidClass.getText(), listSettingsMidTable.getSelectedIndex());
+					tfSettingsMidClass.setText("");
+					tfSettingsMidName.setText("");
+					setEnabledUpdate(false);
+					settingsMidUpdatePanel.setBackground(notEditablePurple);
+					tfSettingsMidClass.requestFocus();
+				}
+				listSettingsMidTable.clearSelection();
 			}
 		});
 		settingsMidPanel.add(settingsMidUpdatePanel);
@@ -547,9 +570,12 @@ public class InitFrame extends JFrame {
 						Controller.isNotEmpty(klasse) &&
 						Controller.checkClassInput(klasse)) {
 					backend.addSchueler(name, klasse);
+					listSettingsMidTable.clearSelection();
 					tfSettingsMidClass.setText("");
 					tfSettingsMidName.setText("");
 					tfSettingsMidClass.requestFocus();
+					setEnabledUpdate(false);
+					settingsMidUpdatePanel.setBackground(notEditablePurple);
 				} else {
 					setConfirmDialog("Überprüfen Sie Ihre Eingaben!");
 				}
@@ -738,7 +764,7 @@ public class InitFrame extends JFrame {
 		} else {
 			model.set(i, newSchueler.getKlasse().getName() + "         " + newSchueler.getName());
 			
-			
+			lblGameUserList.get(i).setText(newSchueler.getKlasse().getName() + " " + newSchueler.getName());
 		}
 	}
 	
@@ -812,6 +838,7 @@ public class InitFrame extends JFrame {
 		this.enabledDelete = enabledDelete;
 	}
 	
+	@SuppressWarnings("unused")
 	private void setConfirmDialog(String s) {
 		new ConfirmDialog(this, true, s);
 	}
