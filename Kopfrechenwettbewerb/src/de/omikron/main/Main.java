@@ -14,9 +14,8 @@ public class Main {
 			@Override
 			public void run() {
 				Backend back = new Backend();
-				back.init();
-				
-				}
+				back.init();	
+			}
 		});
 	}
 
