@@ -28,10 +28,6 @@ public class Backend {
 		return tmp;
 	}
 	
-	public boolean removeSchueler(String name) {
-		return rmSchueler(name);
-	}
-	
 	public boolean addSchueler(String newSchueler, String klasse) {
 		klasse = klasse.toUpperCase();
 		Klasse kl = addKlasse(klasse);
@@ -52,21 +48,19 @@ public class Backend {
 		return true;
 	}
 	
-	private boolean rmSchueler(String rmSchueler) {
+	protected void rmSchueler(int rmSchueler) {
+		
 		for(int i = 0; i < schueler.size(); i++) {
-			if(schueler.get(i).getName().equalsIgnoreCase(rmSchueler)) {
-				Klasse tmp = schueler.get(i).getKlasse();
-				schueler.remove(i);
-				for(int j = 0; j < schueler.size(); j++) {
-					if(schueler.get(i).getKlasse().equals(tmp)) {
-						return true;
-					}
-				}
-				removeKlasse(tmp.getName());
-				return true;
+			if(schueler.get(rmSchueler).getKlasse().equals(schueler.get(i).getKlasse())) {
+				schueler.remove(rmSchueler);
+				front.updateDeleteOperation(rmSchueler);
+				return;
 			}
 		}
-		return false;
+		removeKlasse(schueler.get(rmSchueler).getKlasse().getName());
+		schueler.remove(rmSchueler);
+		
+		front.updateDeleteOperation(rmSchueler);
 	}
 
 	public ArrayList<String> getKlassen() {

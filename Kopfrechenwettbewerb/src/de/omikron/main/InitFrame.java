@@ -217,6 +217,8 @@ public class InitFrame extends JFrame {
 			public void valueChanged(ListSelectionEvent e) {
 				if(!listSettingsMidTable.isSelectionEmpty()) {
 					setEnabledUpdate(true);
+					setEnabledDelete(true);
+					settingsMidRemovePanel.setBackground(menuePurple);
 					settingsMidUpdatePanel.setBackground(menuePurple);
 					tfSettingsMidClass.setText(backend.getSchuelerlist().get(listSettingsMidTable.getSelectedIndex()).getKlasse().getName());
 					tfSettingsMidName.setText(backend.getSchuelerlist().get(listSettingsMidTable.getSelectedIndex()).getName());
@@ -512,7 +514,17 @@ public class InitFrame extends JFrame {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+				if(isEnabledDelete()) {
+					backend.rmSchueler(listSettingsMidTable.getSelectedIndex());
+					
+					tfSettingsMidClass.setText("");
+					tfSettingsMidName.setText("");
+					setEnabledUpdate(false);
+					setEnabledDelete(false);
+					settingsMidUpdatePanel.setBackground(notEditablePurple);
+					settingsMidRemovePanel.setBackground(notEditablePurple);
+					tfSettingsMidClass.requestFocus();
+				}
 			}
 		});
 		settingsMidPanel.add(settingsMidRemovePanel);
@@ -545,7 +557,9 @@ public class InitFrame extends JFrame {
 					tfSettingsMidClass.setText("");
 					tfSettingsMidName.setText("");
 					setEnabledUpdate(false);
+					setEnabledDelete(false);
 					settingsMidUpdatePanel.setBackground(notEditablePurple);
+					settingsMidRemovePanel.setBackground(notEditablePurple);
 					tfSettingsMidClass.requestFocus();
 				}
 				listSettingsMidTable.clearSelection();
@@ -776,6 +790,23 @@ public class InitFrame extends JFrame {
 			model.set(i, newSchueler.getKlasse().getName() + "         " + newSchueler.getName());
 			
 			lblGameUserList.get(i).setText(newSchueler.getKlasse().getName() + " " + newSchueler.getName());
+		}
+	}
+	
+	public void updateDeleteOperation(int index) {
+		model.remove(index);
+		
+		gameMidCenterPanel.remove(gameMidList.get(index));
+		gameMidList.get(index).removeAll();
+
+		gameMidList.remove(index);
+		lblGameUserAdd.remove(index);
+		lblGameUserRemove.remove(index);
+		lblGameUserList.remove(index);
+		lblGameUserPlotList.remove(index);
+		
+		for(int i = index; i < model.size(); i++) {
+			gameMidList.get(i).setBounds(0, i*28, gameMidList.get(i).getBounds().width, gameMidList.get(i).getBounds().height);
 		}
 	}
 	
