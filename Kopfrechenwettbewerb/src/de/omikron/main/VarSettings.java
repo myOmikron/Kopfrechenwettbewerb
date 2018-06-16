@@ -1,6 +1,6 @@
 package de.omikron.main;
 
-public class VarSettings {
+public abstract class VarSettings {
 	
 	private static int gameLength = 15;
 
