@@ -806,7 +806,77 @@ public class InitFrame extends JFrame {
 		lblGameUserPlotList.remove(index);
 		
 		for(int i = index; i < model.size(); i++) {
-			gameMidList.get(i).setBounds(0, i*28, gameMidList.get(i).getBounds().width, gameMidList.get(i).getBounds().height);
+			updateListDeleteOperation(i);
+			
+		}
+	}
+	
+	private void updateListDeleteOperation(int index) {
+		gameMidList.get(index).setBounds(0, index*28, gameMidList.get(index).getBounds().width, gameMidList.get(index).getBounds().height);
+		MouseListener[] mlGameUserAdd = lblGameUserAdd.get(index).getMouseListeners();
+		lblGameUserAdd.get(index).removeMouseListener(mlGameUserAdd[0]);
+		MouseListener[] mlGameUserRemove = lblGameUserRemove.get(index).getMouseListeners();
+		lblGameUserRemove.get(index).removeMouseListener(mlGameUserRemove[0]);
+		
+		lblGameUserAdd.get(index).addMouseListener(new MouseListener() {
+			@Override public void mouseClicked(MouseEvent e) {  }
+			@Override public void mouseReleased(MouseEvent e) {  }
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if(backend.getSchuelerlist().get(index).getPoints() < 20) {
+					backend.addPoint(backend.getSchuelerlist().get(index));
+					JLabel lblPlotLength = lblGameUserPlotList.get(index);
+					lblPlotLength.setSize(lblPlotLength.getSize().width+25, lblPlotLength.getSize().height);
+					lblPlotLength.setText(String.valueOf(backend.getSchuelerlist().get(index).getPoints()));
+					lblGameUserPlotList.set(index, lblPlotLength);
+				} else {
+					setConfirmDialog("Die maximale Punktezahl ist auf 20 limitiert!");
+				}
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblGameUserAdd.get(index).setBackground(menueOverPurple);
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblGameUserAdd.get(index).setBackground(menuePurple);
+			}
+			
+		});
+		
+		lblGameUserRemove.get(index).addMouseListener(new MouseListener() {
+			@Override public void mouseReleased(MouseEvent e) {  }
+			@Override public void mouseClicked(MouseEvent e) {  }
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblGameUserRemove.get(index).setBackground(menuePurple);
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblGameUserRemove.get(index).setBackground(menueOverPurple);
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				boolean isSuccessfull = backend.removePoint(backend.getSchuelerlist().get(index));
+				if(isSuccessfull) {
+					JLabel lblPlotLength = lblGameUserPlotList.get(index);
+					lblPlotLength.setSize(lblPlotLength.getSize().width-25, lblPlotLength.getSize().height);
+					lblPlotLength.setText(String.valueOf(backend.getSchuelerlist().get(index).getPoints()));
+					lblGameUserPlotList.set(index, lblPlotLength);
+				} else {
+					setConfirmDialog("Die minimale Punktezahl ist auf 0 begrenzt!");
+				}
+			}
+		});
+		
+		if(index%2 == 0) {
+			gameMidList.get(index).setBackground(white);
+		} else {
+			gameMidList.get(index).setBackground(notEditablePurple);
 		}
 	}
 	
