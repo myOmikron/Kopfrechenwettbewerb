@@ -595,6 +595,7 @@ public class InitFrame extends JFrame {
 					tfSettingsMidName.setText("");
 					tfSettingsMidClass.requestFocus();
 					setEnabledUpdate(false);
+					setEnabledDelete(false);
 					settingsMidUpdatePanel.setBackground(notEditablePurple);
 				} else {
 					setConfirmDialog("Überprüfen Sie Ihre Eingaben!");
